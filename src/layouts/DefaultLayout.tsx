@@ -9,7 +9,9 @@ export function DefaultLayout() {
     <LayoutContainer>
       <img src={backgroundImg} alt='' />
 
-      <Outlet />
+      <div>
+        <Outlet />
+      </div>
     </LayoutContainer>
   );
 }

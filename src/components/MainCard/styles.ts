@@ -2,8 +2,7 @@ import styled from 'styled-components';
 
 export const MainCardContainer = styled.div`
   background-color: ${(props) => props.theme.profile};
-  width: 54rem;
-  max-width: 864px;
+  width: 100%;
   max-height: 13.25rem;
 
   box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.2);

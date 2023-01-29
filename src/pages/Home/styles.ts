@@ -3,11 +3,15 @@ import styled from 'styled-components';
 export const HomeContainer = styled.div``;
 
 export const PostsContainer = styled.div`
-  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  margin-top: 3rem;
 
   > div:first-child {
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    margin-bottom: 0.75rem;
 
     strong {
       color: ${(props) => props.theme.subtitle};
@@ -47,5 +51,6 @@ export const PostCardWrapper = styled.div`
 
   display: grid;
   grid-template-columns: 1fr 1fr;
+  justify-items: center;
   gap: 2rem;
 `;

@@ -1,15 +1,25 @@
+import { useEffect } from 'react';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faBuilding, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { MainCard } from '../../components/MainCard';
 import { PostCard } from '../../components/PostCard';
+
+import { gitHubApi } from '../../lib/axios';
 
 import { HomeContainer, PostCardWrapper, PostsContainer } from './styles';
 
 const DESCRIPTION =
   'Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu         viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat pulvinar vel mass.';
 
+const GITHUB_USERNAME = 'rafarod21';
+
 export function Home() {
+  useEffect(() => {
+    // const response = gitHubApi.get(`users/${GITHUB_USERNAME}`)
+  }, []);
+
   return (
     <HomeContainer>
       <MainCard

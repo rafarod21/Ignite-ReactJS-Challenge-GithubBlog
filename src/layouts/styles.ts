@@ -4,22 +4,20 @@ import backgroundImg from '../assets/Cover.svg';
 
 export const LayoutContainer = styled.div`
   height: 100vh;
-  flex: 1;
+  width: 100vw;
 
   display: flex;
   flex-direction: column;
-  align-items: center;
-
-  padding-bottom: 5rem;
 
   overflow-y: scroll;
 
   > img {
     width: 100%;
-    height: 18.75rem;
-    background-image: url(${backgroundImg});
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    /* height: 18.75rem; */
+  }
+
+  > div {
+    margin-top: -3rem;
+    padding: 0 32rem 3rem;
   }
 `;
