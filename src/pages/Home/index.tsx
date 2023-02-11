@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faBuilding, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,61 +6,93 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { MainCard } from '../../components/MainCard';
 import { PostCard } from '../../components/PostCard';
 
-import { gitHubApi } from '../../lib/axios';
+import { Post } from '../PostPage';
+
+import { getIssues, getUserInfos } from '../../lib/axios';
 
 import { HomeContainer, PostCardWrapper, PostsContainer } from './styles';
 
-const DESCRIPTION =
-  'Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu         viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat pulvinar vel mass.';
+interface User {
+  login: string;
+  name: string;
+  avatar_url: string;
+  bio: string;
+  company: string | null;
+  followers: number;
+  html_url: string;
+}
 
-const GITHUB_USERNAME = 'rafarod21';
+interface Posts {
+  total_count: number;
+  items: Post[];
+}
 
 export function Home() {
+  const [user, setUser] = useState<User>();
+  const [posts, setPosts] = useState<Posts>();
+
+  async function getUser() {
+    const data = await getUserInfos();
+    setUser(data);
+  }
+
+  async function getPosts() {
+    const data = await getIssues();
+    setPosts(data);
+  }
+
   useEffect(() => {
-    // const response = gitHubApi.get(`users/${GITHUB_USERNAME}`)
+    getUser();
+    getPosts();
   }, []);
 
   return (
     <HomeContainer>
-      <MainCard
-        githubLink='https://github.com/rafarod21'
-        image='https://github.com/rafarod21.png'
-        title='Cameron Williamson'
-        description={DESCRIPTION}
-        infos={[
-          {
-            icon: <FontAwesomeIcon icon={faGithub} />,
-            label: 'cameronwll',
-          },
-          {
-            icon: <FontAwesomeIcon icon={faBuilding} />,
-            label: 'Rocketseat',
-          },
-          {
-            icon: <FontAwesomeIcon icon={faUserFriends} />,
-            label: '32 seguidores',
-          },
-        ]}
-      />
+      {user && (
+        <>
+          <MainCard
+            githubLink={user.html_url}
+            image={user.avatar_url}
+            title={user.name}
+            description={user.bio}
+            infos={[
+              {
+                icon: <FontAwesomeIcon icon={faGithub} />,
+                label: user.login,
+              },
+              {
+                icon: <FontAwesomeIcon icon={faBuilding} />,
+                label: user.company || 'Não possui',
+              },
+              {
+                icon: <FontAwesomeIcon icon={faUserFriends} />,
+                label: `${user.followers} seguidores`,
+              },
+            ]}
+          />
 
-      <PostsContainer>
-        <div>
-          <strong>Publicações</strong>
-          <span>6 publicações</span>
-        </div>
+          <PostsContainer>
+            <div>
+              <strong>Publicações</strong>
+              <span>{posts?.total_count} publicações</span>
+            </div>
 
-        <input type='text' placeholder='Buscar conteúdo' />
+            <input type='text' placeholder='Buscar conteúdo' />
 
-        <PostCardWrapper>
-          <PostCard />
-          <PostCard />
-          <PostCard />
-          <PostCard />
-          <PostCard />
-          <PostCard />
-          <PostCard />
-        </PostCardWrapper>
-      </PostsContainer>
+            <PostCardWrapper>
+              {posts &&
+                posts.items.map((post, index) => (
+                  <PostCard
+                    key={`${post.title}-${index}`}
+                    title={post.title}
+                    createdAt={post.updated_at}
+                    description={post.body}
+                  />
+                ))}
+            </PostCardWrapper>
+          </PostsContainer>
+        </>
+      )}
     </HomeContainer>
   );
 }

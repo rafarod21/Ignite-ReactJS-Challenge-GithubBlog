@@ -16,14 +16,13 @@ import { MainCard } from '../../components/MainCard';
 
 import { MarkdownContainer, PostPageContainer } from './styles';
 
-// https://api.github.com/search/issues?q=Boas%20práticas%20repo:rocketseat-education/reactjs-github-blog-challenge
-
-interface Post {
+export interface Post {
   title: string;
   body: string;
   html_url: string;
   comments: number;
   updated_at: Date;
+  number: number;
   user: {
     login: string;
     url: string;
@@ -47,7 +46,7 @@ export function PostPage() {
   }
 
   useEffect(() => {
-    getDataPost();
+    // getDataPost();
   }, []);
 
   return (
