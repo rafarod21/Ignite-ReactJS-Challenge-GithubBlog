@@ -7,22 +7,28 @@ import { calculateHowManyDaysAgoItWasEdited } from '../../utils/calculateHowMany
 
 interface PostCardProps {
   title: string;
+  number: number;
   description: string;
   createdAt: Date;
 }
 
-export function PostCard({ title, description, createdAt }: PostCardProps) {
+export function PostCard({
+  title,
+  number,
+  description,
+  createdAt,
+}: PostCardProps) {
   const howManyDaysAgo = calculateHowManyDaysAgoItWasEdited(createdAt);
 
   return (
-    <PostCardContainer to='/post'>
-      <span>
-        Há {howManyDaysAgo} {howManyDaysAgo === 1 ? 'dia' : 'dias'}
-      </span>
+    <PostCardContainer to={`/post/${number}`}>
+      <span>Há {howManyDaysAgo} dias</span>
       <h3>{title}</h3>
-      <p>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{description}</ReactMarkdown>
-      </p>
+      <div>
+        <ReactMarkdown remarkPlugins={[remarkGfm]} disallowedElements={['a']}>
+          {description}
+        </ReactMarkdown>
+      </div>
     </PostCardContainer>
   );
 }

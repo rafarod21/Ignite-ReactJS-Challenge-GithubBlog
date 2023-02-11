@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import {
   faBuilding,
@@ -10,9 +11,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-import { gitHubApi } from '../../lib/axios';
+import { getOneIssue, gitHubApi } from '../../lib/axios';
 
 import { MainCard } from '../../components/MainCard';
+
+import { calculateHowManyDaysAgoItWasEdited } from '../../utils/calculateHowManyDaysAgoItWasEdited';
 
 import { MarkdownContainer, PostPageContainer } from './styles';
 
@@ -30,23 +33,18 @@ export interface Post {
 }
 
 export function PostPage() {
+  const { issueNumber } = useParams();
   const [post, setPost] = useState<Post>();
 
   async function getDataPost() {
-    try {
-      const response = await gitHubApi.get(
-        'repos/rocketseat-education/reactjs-github-blog-challenge/issues/1'
-      );
-
-      console.log(response.data);
-      setPost(response.data);
-    } catch (error) {
-      console.log(error);
+    if (issueNumber) {
+      const data = await getOneIssue(issueNumber);
+      setPost(data);
     }
   }
 
   useEffect(() => {
-    // getDataPost();
+    getDataPost();
   }, []);
 
   return (
@@ -54,27 +52,29 @@ export function PostPage() {
       {post && (
         <>
           <MainCard
-            githubLink='https://github.com/rafarod21'
-            title={post?.title}
+            githubLink={post.html_url}
+            title={post.title}
             infos={[
               {
                 icon: <FontAwesomeIcon icon={faGithub} />,
-                label: 'cameronwll',
+                label: post.user.login,
               },
               {
                 icon: <FontAwesomeIcon icon={faCalendarDay} />,
-                label: 'Há 1 dia',
+                label: `Há ${calculateHowManyDaysAgoItWasEdited(
+                  post.updated_at
+                )} dias`,
               },
               {
                 icon: <FontAwesomeIcon icon={faComment} />,
-                label: '5 comentários',
+                label: `${post.comments} comentários`,
               },
             ]}
           />
 
           <MarkdownContainer>
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {post?.body}
+              {post.body}
             </ReactMarkdown>
           </MarkdownContainer>
         </>

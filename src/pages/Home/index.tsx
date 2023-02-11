@@ -85,6 +85,7 @@ export function Home() {
                   <PostCard
                     key={`${post.title}-${index}`}
                     title={post.title}
+                    number={post.number}
                     createdAt={post.updated_at}
                     description={post.body}
                   />

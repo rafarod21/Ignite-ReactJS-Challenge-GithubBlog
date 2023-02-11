@@ -46,7 +46,7 @@ export const PostCardContainer = styled(NavLink)`
     line-height: 130%;
   }
 
-  p {
+  > div {
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
