@@ -2,7 +2,7 @@
   <br>
   <Img src="https://github.com/rafarod21/Ignite-ReactJS-Challenge-GithubBlog/blob/main/git-assets/logo.svg" width=400/>
   
-  <h3 align="center"> Blog pessoal vinculado com o Github :octocat: </h3>
+  <h3 align="center"> Blog pessoal vinculado com as isseus desse repositório :octocat: </h3>
   
   <p align="center">
     <img src="https://img.shields.io/static/v1?label=Status&message=Conclu%C3%ADdo&color=brightgreen&style=flat&labelColor=3E3E3E">
